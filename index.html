@@ -920,6 +920,121 @@
             align-items: center;
         }
 
+        /* PERUBAHAN: STYLE UNTUK POPUP CHALLENGE/KODE AKSES BARU */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: linear-gradient(145deg, #1a0b2e, #0a0a0a);
+            border: 1px solid var(--accent-crimson);
+            box-shadow: var(--glow-red), 0 0 20px var(--accent-neon);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-neon);
+            text-shadow: 0 0 10px var(--accent-neon);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .modal-desc {
+            color: var(--text-fog);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .access-code-display {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.2rem;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--accent-neon);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            user-select: all;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-modal {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        .btn-copy {
+            background: var(--accent-neon);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(176, 38, 255, 0.4);
+        }
+
+        .btn-copy:hover {
+            background: #cd7aff;
+            box-shadow: 0 0 25px rgba(176, 38, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-close {
+            background: transparent;
+            border: 1px solid var(--accent-crimson);
+            color: var(--accent-crimson);
+        }
+
+        .btn-close:hover {
+            background: var(--accent-crimson);
+            color: white;
+            box-shadow: var(--glow-red);
+        }
+
+        .hidden-elem {
+            display: none !important;
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .event-layout {
@@ -1112,22 +1227,24 @@ Penghancur harapan yang hadir terakhir.</p>
                                 </li>
                                 <li>
                                     <strong>Format Kemenangan:</strong>
-                                    Wajib menang 3 match (Best of 3). Jika kalah 1 match, langsung tereliminasi/gugur.
+                                    Sistem 4 Ronde (Win Streak). Pemain harus menang berturut-turut untuk lanjut ke ronde berikutnya. Kalah 1x = Gugur.
                                 </li>
                                 <li>
                                     <strong>Pemilihan Hero:</strong>
                                     <ul>
                                         <li>Match 1: Hero bebas.</li>
                                         <li>Match 2: Hero bebas (tidak boleh sama dengan Match 1).</li>
-                                        <li>Match 3: Wajib menggunakan hero yang ingin diberi skin. Misalnya, jika yang akan di-gift adalah skin Layla Legend, maka wajib menggunakan hero Layla.</li>
+                                        <li>Match 3: Hero bebas (tidak boleh sama dengan Match 1 & 2).</li>
+                                        <li>Match 4: Hero bebas (tidak boleh sama dengan Match 1, 2 & 3).</li>
                                     </ul>
                                 </li>
                                 <li>
                                     <strong>Struktur Hadiah:</strong>
                                     <ul>
-                                        <li>Menang 1 match: Kode Akses Role Bronze Uranus Supreme.</li>
-                                        <li>Menang 2 match: Kode Akses Role Silver Uranus Supreme, Starlight Biasa.</li>
-                                        <li>Menang 3 match: Kode Akses Role Gold Uranus Supreme, Skin yang diinginkan.</li>
+                                        <li>Menang 1 Match: Kode Akses Role Bronze Uranus Supreme.</li>
+                                        <li>Menang 2 Match: Kode Akses Role Silver Uranus Supreme.</li>
+                                        <li>Menang 3 Match: Kode Akses Role Gold Uranus Supreme.</li>
+                                        <li>Menang 4 Match: Kode Akses Role Platinum Uranus Supreme.</li>
                                     </ul>
                                 </li>
                             </ol>
@@ -1168,7 +1285,8 @@ Penghancur harapan yang hadir terakhir.</p>
                                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                             </a>
                         </div>
-                        <button class="duel-btn">Tantang</button>
+                        <!-- PERUBAHAN: Menambahkan ID unik untuk trigger JS -->
+                        <button class="duel-btn" id="btn-challenge-uranus">Tantang</button>
                     </div>
                     <div class="duel-player">
                         <div class="player-avatar">
@@ -1181,7 +1299,8 @@ Penghancur harapan yang hadir terakhir.</p>
                                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                             </a>
                         </div>
-                        <button class="duel-btn">Tantang</button>
+                        <!-- PERUBAHAN: Menambahkan ID unik untuk trigger JS -->
+                        <button class="duel-btn" id="btn-challenge-murid">Tantang</button>
                     </div>
                 </div>
                 <!-- AD 320x50 START -->
@@ -1263,6 +1382,27 @@ Penghancur harapan yang hadir terakhir.</p>
         </div>
     </div>
     <!-- Fullscreen Interstitial Ad End -->
+
+    <!-- PERUBAHAN: HTML STRUKTUR UNTUK POPUP CHALLENGE BARU -->
+    <div id="challenge-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 id="modal-title" class="modal-title"></h2>
+            <p id="modal-desc" class="modal-desc"></p>
+            <div id="modal-code-container" class="access-code-display hidden-elem"></div>
+            
+            <!-- PERUBAHAN: Tambah Container untuk Link Website -->
+            <div id="modal-link-container" class="hidden-elem" style="margin-bottom: 1.5rem;">
+                <a id="modal-link-btn" href="#" target="_blank" class="cta-button" style="text-decoration: none; font-size: 0.85rem; padding: 0.8rem 1.5rem; display: inline-block; width: 100%;">
+                    Buka Website Uranus Supreme
+                </a>
+            </div>
+
+            <div class="modal-actions">
+                <button id="btn-copy" class="btn-modal btn-copy hidden-elem">Copy Kode</button>
+                <button id="btn-close" class="btn-modal btn-close">Tutup</button>
+            </div>
+        </div>
+    </div>
     
     <!-- POPUNDER AD SCRIPT START -->
     <script type='text/javascript' src='//librarysituation.com/a8/af/54/a8af549d7bed639f29f6fcad465d3eb6.js'></script>
@@ -1352,18 +1492,84 @@ Penghancur harapan yang hadir terakhir.</p>
             showToast(isMuted ? 'Musik Dimatikan' : 'Musik Diputar');
         });
 
-        // Duel Buttons
-        document.querySelectorAll('.duel-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const playerName = this.closest('.duel-player').querySelector('.player-name').textContent;
-                showToast(`Tantangan terkirim ke ${playerName}!`);
-                this.textContent = 'Menunggu...';
-                this.disabled = true;
-                setTimeout(() => {
-                    this.textContent = 'Tantang';
-                    this.disabled = false;
-                }, 2000);
+        // PERUBAHAN: LOGIKA POPUP CHALLENGE BARU
+        const modalOverlay = document.getElementById('challenge-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalCodeContainer = document.getElementById('modal-code-container');
+        
+        // Elemen baru untuk link website
+        const modalLinkContainer = document.getElementById('modal-link-container');
+        const modalLinkBtn = document.getElementById('modal-link-btn');
+
+        const btnCopy = document.getElementById('btn-copy');
+        const btnClose = document.getElementById('btn-close');
+        
+        const btnUranus = document.getElementById('btn-challenge-uranus');
+        const btnMurid = document.getElementById('btn-challenge-murid');
+
+        function generateRandomCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let result = 'UF-';
+            for (let i = 0; i < 4; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Event Listener untuk Tombol Tantang Uranus
+        btnUranus.addEventListener('click', () => {
+            const code = generateRandomCode();
+            
+            modalTitle.textContent = "Kode Akses";
+            // Update instruksi menjadi kalimat profesional
+            modalDesc.textContent = "Salin kode akses ini untuk verifikasi tantangan 1v1 di Live Streaming resmi Uranus Fazry.";
+            modalCodeContainer.textContent = code;
+            
+            // Set Link Website
+            modalLinkBtn.href = "https://uranusupreme.web.app/login.html#register";
+            
+            // Tampilkan elemen yang diperlukan
+            modalCodeContainer.classList.remove('hidden-elem');
+            modalLinkContainer.classList.remove('hidden-elem'); // Tampilkan tombol link
+            btnCopy.classList.remove('hidden-elem');
+            
+            modalOverlay.classList.add('show');
+        });
+
+        // Event Listener untuk Tombol Tantang Murid
+        btnMurid.addEventListener('click', () => {
+            modalTitle.textContent = "COMING SOON";
+            modalDesc.textContent = "Mode tantang Murid Uranus Fazry segera dibuka.";
+            
+            // Sembunyikan elemen yang tidak diperlukan
+            modalCodeContainer.classList.add('hidden-elem');
+            modalLinkContainer.classList.add('hidden-elem'); // Sembunyikan tombol link
+            btnCopy.classList.add('hidden-elem');
+            
+            modalOverlay.classList.add('show');
+        });
+
+        // Event Listener Tombol Copy
+        btnCopy.addEventListener('click', () => {
+            const codeText = modalCodeContainer.textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                showToast("Kode berhasil disalin!");
+            }).catch(err => {
+                showToast("Gagal menyalin kode.");
             });
+        });
+
+        // Event Listener Tombol Close Modal
+        btnClose.addEventListener('click', () => {
+            modalOverlay.classList.remove('show');
+        });
+
+        // Tutup modal jika klik di luar area konten (overlay)
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('show');
+            }
         });
 
         // Smooth Scroll for Navigation
@@ -1379,4 +1585,3 @@ Penghancur harapan yang hadir terakhir.</p>
     </script>
 </body>
 </html>
-
