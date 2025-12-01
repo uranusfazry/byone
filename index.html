@@ -1508,18 +1508,10 @@ Penghancur harapan yang hadir terakhir.</p>
         const btnUranus = document.getElementById('btn-challenge-uranus');
         const btnMurid = document.getElementById('btn-challenge-murid');
 
-        function generateRandomCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            let result = 'UF-';
-            for (let i = 0; i < 4; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return result;
-        }
-
         // Event Listener untuk Tombol Tantang Uranus
         btnUranus.addEventListener('click', () => {
-            const code = generateRandomCode();
+            // PERUBAHAN: Menggunakan kode statis 'master123' sesuai permintaan
+            const code = "master123";
             
             modalTitle.textContent = "Kode Akses";
             // Update instruksi menjadi kalimat profesional
@@ -1551,13 +1543,34 @@ Penghancur harapan yang hadir terakhir.</p>
         });
 
         // Event Listener Tombol Copy
+        // PERUBAHAN: Menggunakan document.execCommand('copy') agar kompatibel di iframe
         btnCopy.addEventListener('click', () => {
             const codeText = modalCodeContainer.textContent;
-            navigator.clipboard.writeText(codeText).then(() => {
-                showToast("Kode berhasil disalin!");
-            }).catch(err => {
+            
+            // Buat elemen textarea sementara
+            const textarea = document.createElement('textarea');
+            textarea.value = codeText;
+            textarea.style.position = 'fixed'; // Agar tidak menggeser layout
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            
+            // Pilih teks
+            textarea.select();
+            
+            try {
+                // Eksekusi command copy
+                const successful = document.execCommand('copy');
+                if(successful) {
+                    showToast("Kode berhasil disalin: " + codeText);
+                } else {
+                    showToast("Gagal menyalin kode.");
+                }
+            } catch (err) {
                 showToast("Gagal menyalin kode.");
-            });
+            }
+            
+            // Hapus textarea sementara
+            document.body.removeChild(textarea);
         });
 
         // Event Listener Tombol Close Modal
